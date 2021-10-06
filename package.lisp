@@ -1,24 +1,24 @@
 ;;;;package.lisp
 
-(defpackage #:resound
+(defpackage #:vibratsia
   (:use #:cl)
 
   ;;;;pitch.lisp
   (:export
    #:note-to-freq
    #:freq-to-note
+   #:note
    #:make-note)
   
   ;;;;resonance.lisp
   (:export
    #:overtones
-   ) ;;;overtone functions, resonance check functions, but more basic
+   #:compare-overtones) ;;;overtone functions, resonance check functions, but more basic
 
   ;;;;instruments.lisp
-  ;(:export)
-
-  ;;;;pitch.lisp
-  ;(:export)
+  (:export
+   #:instrument
+   #:luthier)
 
   ;;;;analysis.lisp
 

@@ -1,6 +1,6 @@
 ;pitch.lisp
 
-(in-package #:resound)
+(in-package #:vibratsia)
 
 ;;;;------------------------------------------------------------------------
 ;;;;Note/Frequency Conversions
@@ -79,7 +79,7 @@
 			 (octave octave)
                          (freq-float freq-float))
             obj
-          (format stream "Note: ~a-~a, Frequency: ~f" note-name octave freq-float))))
+          (format stream "~a-~a, Frequency: ~f" note-name octave freq-float))))
 
 (defun make-note (frequency)
   "Makes a full note instance from a given frequency."
