@@ -97,45 +97,4 @@
 	(t (cons (freq-incr min) (frequency-ladder (freq-incr min) max)))))
 
 ;;;;------------------------------------------------------------------------
-;(defclass frequency ()
- ; ((freq-value :initarg :freq-value
-;	       :accessor freq-value)))
-
-;(defun make-frequency (freq)
- ; (make-instance 'frequency :freq-value freq))
-
-;(defgeneric make-note (object)
- ; (:documentation "Generates a note-class note."))
-
-;(defmethod make-note (note-name octave)
- ; (make-instance 'note :note-name note-name
-;		       :octave octave
-;		       :freq-float (note-to-freq note-name octave)))
-;;
-;(defmethod make-note ((object frequency))
- ; (make-instance 'note :note-name (first (freq-to-note
-;					  (freq-value frequency)))
-;		       :octave (second (freq-to-note
-;					(freq-value frequency)))
-;		       :freq-float (freq-value frequency)))
-
-;(defvar open-a (make-instance 'note :note-name 'b
-;				    :octave 3
-;				    :freq-float (note-to-freq
-;						 (note-name open-a)
-;						 (octave open-a))))
-
-;(defvar open-d (make-instance 'note :note-name 'd
-;				    :octave 4))
-
-;(setf (slot-value open-d 'freq-float) (note-to-freq (note-name open-d)
-;						    (octave open-d)))
-
-;(defmethod print-object ((obj note) stream)
- ;     (print-unreadable-object (obj stream :type t)
-  ;      (with-accessors ((note-name note-name)
-;			 (octave octave)
- ;                        (freq-float freq-float))
-  ;          obj
-   ;       (format stream "Note:~a~a, Frequency: ~f" note-name octave freq-float))))
 

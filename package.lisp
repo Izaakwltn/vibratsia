@@ -7,7 +7,6 @@
   (:export
    #:note-to-freq
    #:freq-to-note
-   #:note
    #:make-note)
   
   ;;;;resonance.lisp
@@ -17,10 +16,14 @@
 
   ;;;;instruments.lisp
   (:export
-   #:instrument
    #:luthier)
 
   ;;;;analysis.lisp
+  (:export
+   #:symp-rating
+   #:symp-rating-by-note
+   #:symp-by-string
+   #:assess-note
 
 ;etc
 (:documentation "Resonance Calculation Package."))

@@ -3,30 +3,8 @@
 (in-package #:vibratsia)
 
 ;;;;------------------------------------------------------------------------
-;;;;Analysis functions
+;;;;Sympathetic analysis functions
 ;;;;------------------------------------------------------------------------
-
-;;;generic function for analyze, methodized for note, passage, etc.
-
-;;;;Excerpt Class
-(defclass excerpt ()
-  ((title :initarg :title
-	  :initform untitled
-	  :accessor title)
-   (notes :initarg :notes
-	  :accessor notes)))
-
-(defmethod print-object ((object excerpt) stream)
-  (print-unreadable-object (obj stream :type t)
-    (with-accessors ((title title)
-		     (notes notes))
-	obj
-      (format stream "title: ~a, notes: ~a" title notes))))
-
-
-
-
-;;;;Resonance Analysis
 
 (defun symp-collection (pitch strings)
   (cond ((null strings) nil)
@@ -51,6 +29,9 @@
   "Compiles a list of sympathetic vibrations by string."
   (string-symping pitch (strings instrument)))
 						
+;;;;------------------------------------------------------------------------
+;;;;Resonance Stat Generation
+;;;;------------------------------------------------------------------------
 
 (defclass note-assessment ()
    ((note-obj    :initarg :note-obj
@@ -87,7 +68,7 @@
 		  res-list))))
 
 ;;;;------------------------------------------------------------------------
-;;;;Excerpt Analysis
+;;;;Excerpt Analysis -in progress (might try to merge with Lilypond parser)
 ;;;;------------------------------------------------------------------------
 
 (defclass excerpt ()
@@ -104,12 +85,12 @@
 	obj
       (format stream "title: ~a, notes: ~a" title notes))))
 
-(defclass excerpt-assessment ()
-  ((excerpt-title :initarg :excerpt-title
-		  :accessor excerpt-title)
-   (instr         :initarg :instr
-		  :accessor instr)
-   (avg-rating    :initarg :avg-rating
-		  :accessor instr)
-   (
+;(defclass excerpt-assessment ()
+;  ((excerpt-title :initarg :excerpt-title
+;		  :accessor excerpt-title)
+ ;  (instr         :initarg :instr
+;		  :accessor instr)
+ ;  (avg-rating    :initarg :avg-rating
+;		  :accessor instr)
+ ;  (
 

@@ -2,15 +2,9 @@
 
 (in-package #:vibratsia)
 
-;;;;Open Strings
-
-(defconstant violin-open-strings '(196 293.66 440 659.25))
-
-(defconstant viola-open-strings '(130.8 196 293.66 440))
-
-(defconstant cello-open-strings '(65.4 98 146.8  220))
-
-(defconstant bass-open-strings '(41.2 55 73.4 98.0))
+;;;;------------------------------------------------------------------------
+;;;;Defining the Instrument class
+;;;;------------------------------------------------------------------------
 
 (defclass instrument ()
   ((name :initarg :name
@@ -29,15 +23,34 @@
   (make-instance 'instrument :name instrument-name
 		             :strings (loop for string in string-freqs
 					    collect (make-note string))))
+;;;;------------------------------------------------------------------------
+;;;;Predefined Standard Instruments:
+(defconstant violin-open-strings '(196 293.66 440 659.25))
 
-;VIBRATSIA> (luthier 'violin violin-open-strings)
-;#<INSTRUMENT VIOLIN, strings: (#<NOTE G-3, Frequency: 196.0>
- ;                              #<NOTE D-4, Frequency: 293.66>
-  ;                             #<NOTE A-4, Frequency: 440.0>
-   ;                            #<NOTE E-5, Frequency: 659.25>)> 
-				
-			      
-			      
-			  
+(defvar violin (luthier 'violin violin-open-strings))
 
-(:documentation "Instrument specification.")
+(defconstant viola-open-strings '(130.8 196 293.66 440))
+
+(defvar viola (luthier 'viola viola-open-strings))
+
+(defconstant cello-open-strings '(65.4 98 146.8  220))
+
+(defvar cello (luthier 'cello cello-open-strings))
+
+(defconstant bass-open-strings '(41.2 55 73.4 98.0))
+
+(defvar bass (luthier 'bass bass-open-strings))
+
+
+;;;;------------------------------------------------------------------------
+;;;;Pre-defined unusual instruments:
+;;;;------------------------------------------------------------------------
+(defvar hardanger-fiddle-strings (mapcar #'(lambda (note-set)
+					     (note-to-freq (first note-set) (second note-set)))
+					 '((B 3) (E 4) (B 4) (F# 5)
+					   (C# 5) (E 5) (F# 5) (G# 5) (B 5))))
+
+(defvar hardanger-fiddle (luthier 'hardanger-fiddle hardanger-fiddle-strings))				
+
+
+
