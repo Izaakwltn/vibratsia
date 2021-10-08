@@ -17,7 +17,8 @@ overtones of an open string. Harmonic nodes, as the overtones are called in stri
 geography, respond to similar frequencies, and vibrate the open string audibly,
 and sometimes even visually. 
 
-##Using Vibratsia
+## Using Vibratsia
+
 Since most analysis will be in the context of a musical instrument, there are a number of preset
 instruments including the violin, viola, cello, bass, and hardanger fiddle.
 
@@ -28,5 +29,8 @@ VIBRATSIA> (luthier 'violin violin-open-strings)
                                #<NOTE D-4, Frequency: 293.66>
                                #<NOTE A-4, Frequency: 440.0>
                                #<NOTE E-5, Frequency: 659.25>)> 
+                               
+Once you have an instrument configured, you can compare a note with it using note-name/octave syntax:
+
                                
                                
