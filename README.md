@@ -27,11 +27,8 @@ You can also create your own instrument:
 VIBRATSIA> (luthier 'violin violin-open-strings)
 
 #<INSTRUMENT VIOLIN, strings: (#<NOTE G-3, Frequency: 196.0>
-
                                #<NOTE D-4, Frequency: 293.66>
-                               
                                #<NOTE A-4, Frequency: 440.0>
-                               
                                #<NOTE E-5, Frequency: 659.25>)> 
                                
 Once you have an instrument configured, you can compare a note with it using note-name/octave syntax:
