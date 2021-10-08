@@ -87,7 +87,14 @@
 		       :octave (second (freq-to-note frequency))
 		       :freq-float frequency))
 
+;;;;------------------------------------------------------------------------
+;;;;Frequency generation
+;;;;------------------------------------------------------------------------
+(defun freq-incr (base))
 
+(defun frequency-ladder (min max)
+  (cond ((> min max) nil)
+	(t (cons (freq-incr min) (frequency-ladder (freq-incr min) max)))))
 
 ;;;;------------------------------------------------------------------------
 ;(defclass frequency ()

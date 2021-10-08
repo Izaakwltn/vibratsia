@@ -29,7 +29,7 @@
 (defun resonance-compare (overtones1 overtones2)
   (cond ((null overtones1) nil)
 	((resonance-check (first overtones1) overtones2)
-	 (cons (resonance-check (first overtones1) overtones2)
+	 (append (resonance-check (first overtones1) overtones2)
 	       (resonance-compare (rest overtones1) overtones2)))
 	(t (resonance-compare (rest overtones1) overtones2))))
 
