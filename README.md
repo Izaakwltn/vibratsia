@@ -32,9 +32,8 @@ VIBRATSIA> (luthier 'violin violin-open-strings)
                                #<NOTE E-5, Frequency: 659.25>)> 
                                
 Once you have an instrument configured, you can compare a note with it using note-name/octave syntax:
-#### Sample note-assessment
 
-VIBRATSIA> (assess-note 'a 4 violin)
+#### VIBRATSIA> (assess-note 'a 4 violin)
 
 #<NOTE-ASSESSMENT 
 The resonant profile of:
