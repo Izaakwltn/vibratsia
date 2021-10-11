@@ -24,7 +24,7 @@ instruments including the violin, viola, cello, bass, and hardanger fiddle.
 
 You can also create your own instrument:
 
-VIBRATSIA> (luthier 'violin violin-open-strings)
+#### VIBRATSIA> (luthier 'violin violin-open-strings)
 
 #<INSTRUMENT VIOLIN, strings: (#<NOTE G-3, Frequency: 196.0>
                                #<NOTE D-4, Frequency: 293.66>
