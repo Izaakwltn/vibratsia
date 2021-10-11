@@ -1,7 +1,10 @@
 ;;;;package.lisp
+;;;;
+;;;;Copyright (c) 2021 Izaak Walton
 
 (defpackage #:vibratsia
-  (:use #:cl)
+  (:documentation "String Resonance Calculation Package.")
+  (:use #:cl #:alexandria)
 
   ;;;;pitch.lisp
   (:export
@@ -23,7 +26,4 @@
    #:symp-rating
    #:symp-rating-by-note
    #:symp-by-string
-   #:assess-note
-
-;etc
-(:documentation "Resonance Calculation Package."))
+   #:assess-note))

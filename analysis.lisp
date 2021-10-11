@@ -73,12 +73,12 @@
 
 (defclass excerpt ()
   ((title :initarg :title
-	  :initform untitled
+	  :initform 'untitled
 	  :accessor title)
    (notes :initarg :notes
 	  :accessor notes)))
 
-(defmethod print-object ((object excerpt) stream)
+(defmethod print-object ((obj excerpt) stream)
   (print-unreadable-object (obj stream :type t)
     (with-accessors ((title title)
 		     (notes notes))

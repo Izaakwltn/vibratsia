@@ -6,7 +6,8 @@
   :version "0.0.1"
   :author "Izaak Walton <izaakw@protonmail.com>"
   :license "GNU General Purpose License"
-  :description "A module for anaylizing sympathetic vibrations on stringed instruments."
+  :description "A module for analyzing sympathetic vibrations on stringed instruments."
+  :depends-on (#:alexandria)
   :serial t
   :components ((:file "package")
 	       (:file "pitch")
