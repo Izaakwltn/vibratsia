@@ -68,6 +68,46 @@
 		  res-list))))
 
 ;;;;------------------------------------------------------------------------
+;;;;Instrument Resonance Profile
+;;;;------------------------------------------------------------------------
+(defun most-resonant (instrument)
+  (loop :with most-res := (first (frequency-ladder (lower-bound instrument)
+						   (upper-bound instrument)))
+	:for f in (frequency-ladder (lower-bound instrument)
+				    (upper-bound instrument))
+	:when (> (symp-rating f instrument) (symp-rating most-res instrument))
+	  :do (setf most-res f)
+	:finally (return (make-note most-res))))
+
+
+(defun resonance-ranking (instrument)
+  (mapcar #'(lambda (f)
+	      (list (symp-rating f instrument) (make-note f)))
+	  (sort (frequency-ladder (lower-bound instrument)
+			          (upper-bound instrument))
+  #'(lambda (freq1 freq2)
+    (> (symp-rating freq1 instrument) (symp-rating freq2 instrument))))))
+
+(defclass instrument-assessment ()
+  ((instrument :initarg :instrument
+               :accessor instrument)
+   (note-ranks  :initarg :note-ranks
+	       :accessor note-ranks)))
+  
+(defmethod print-object ((obj instrument-assessment) stream)
+      (print-unreadable-object (obj stream :type t)
+        (with-accessors ((instrument instrument)
+			 (note-ranks note-ranks))
+            obj
+          (format stream "~%~a~%~%Note Ranking by Number of Sympathetic Vibrations:~% ~{~a~%~}"
+		  instrument note-ranks))))
+
+(defun assess-instrument (instrument)
+  (make-instance 'instrument-assessment :instrument instrument
+		                        :note-ranks (resonance-ranking instrument)))
+
+
+;;;;------------------------------------------------------------------------
 ;;;;Excerpt Analysis -in progress (might try to merge with Lilypond parser)
 ;;;;------------------------------------------------------------------------
 

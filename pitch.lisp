@@ -122,10 +122,24 @@
 ;n = half steps away from fixed note (positive or negative)
 ;fn = frequency of note n half steps away
 ;a = 2^1/12
+;fn = f0 * (a)n
+;(draw (glue (box "f(n)") (box " = ") (box "f(0)") (box " * ")
+;	    (script-box (box "(a)") :superscript (box "n"))
+;	    (box " where ") (box "a") (box " = ") (script-box (box "2") :superscript (box "1/12"))))
+"+----------------------------------+
+ |                 n            1/12|
+ |f(n) = f(0) * (a)  where a = 2    |
+ +----------------------------------+"
+;(draw (glue (box "f(half-steps)") (box " = ") (box "440") (box " * ")
+;	    (script-box (box "(a)") :superscript (box "half-steps"))
+;	    (box " where ") (box "a") (box " = ") (script-box (box "2") :superscript (box "1/12"))))
+"+---------------------------------------------------+
+ |                         half-steps            1/12|
+ |f(half-steps) = 440 * (a)           where a = 2    |
+ +---------------------------------------------------+"
 
 (defun freq-incr (fixed)
   (* fixed (expt (expt 2 (/ 1 12)) 1)))
-
 
 
 (defun frequency-ladder (min max)

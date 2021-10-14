@@ -10,7 +10,11 @@
   ((name :initarg :name
 	 :accessor name)
    (strings :initarg :strings
-	    :accessor strings)))
+	    :accessor strings)
+   (lower-bound :initarg :lower-bound
+		:accessor lower-bound)
+   (upper-bound :initarg :upper-bound
+		:accessor upper-bound)))
 
 (defmethod print-object ((obj instrument) stream)
       (print-unreadable-object (obj stream :type t)
@@ -23,7 +27,9 @@
   (make-instance 'instrument
     :name instrument-name
     :strings (loop :for string :in string-freqs
-		   :collect (make-note string))))
+		   :collect (make-note string))
+    :lower-bound (reduce #'min string-freqs)
+    :upper-bound (* 3 (reduce #'max string-freqs))))
 ;;;;------------------------------------------------------------------------
 ;;;;Predefined Standard Instruments:
 (alexandria:define-constant violin-open-strings '(196 293.66 440 659.25) :test 'equal)

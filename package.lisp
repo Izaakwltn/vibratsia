@@ -26,4 +26,7 @@
    #:symp-rating
    #:symp-rating-by-note
    #:symp-by-string
-   #:assess-note))
+   #:assess-note
+   #:most-resonant
+   #:resonance-ranking
+   #:assess-instrument))
