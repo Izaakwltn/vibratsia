@@ -21,7 +21,7 @@
 
 (defun string-symping (pitch strings)
   (cond ((null strings) nil)
-	(t (append (list (note-name (first strings)) 'string
+	(t (append (list (list (note-name (first strings)) 'string)
 			 (mapcar #'make-note (compare-overtones pitch (freq-float (first strings)))))
 		   (string-symping pitch (rest strings))))))
 
@@ -60,7 +60,7 @@
           (format stream "~%The resonant profile of:~%~%~a
                           ~%as played on the: ~%~a~%
                           ~%Sympathetic Vibration Rating: ~a, which is ~a.~%
-                          ~%A list of Frequencies by String:~%~%~a"
+                          ~%A list of Frequencies by String:~%~%~{~a~%~}"
 		  note-obj instr rating
                   (cond ((> rating 20) "highly resonant")
                         ((> rating 10) "moderately resonant")
