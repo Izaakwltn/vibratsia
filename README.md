@@ -19,10 +19,9 @@ and sometimes even visually.
 
 ## Using Vibratsia
 
-### Since most analysis will be in the context of a musical instrument, there are a number of preset
-### instruments including the violin, viola, cello, bass, and hardanger fiddle.
+#### Since most analysis will be in the context of a musical instrument, there are a number of preset instruments including the violin, viola, cello, bass, and hardanger fiddle.
 
-### You can also create your own instrument:
+### You can create a custom instrument:
 
 VIBRATSIA> (luthier 'violin violin-open-strings)
 
