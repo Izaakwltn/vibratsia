@@ -10,7 +10,10 @@
   (:export
    #:note-to-freq
    #:freq-to-note
-   #:make-note)
+   #:make-note
+   #:freq-adjust
+   #:freq-incr
+   #:frequency-ladder)
   
   ;;;;resonance.lisp
   (:export
@@ -21,6 +24,12 @@
   (:export
    #:luthier)
 
+  ;;;;scales.lisp
+  (:export
+   #:build-scale
+   #:scale-ranking
+   #:assess-scale)
+   
   ;;;;analysis.lisp
   (:export
    #:symp-rating
@@ -29,4 +38,5 @@
    #:assess-note
    #:most-resonant
    #:resonance-ranking
-   #:assess-instrument))
+   #:assess-instrument
+   #:avg-resonance))

@@ -13,5 +13,6 @@
 	       (:file "pitch")
 	       (:file "resonance")
 	       (:file "instruments")
+	       (:file "scales")
 	       (:file "analysis")))
  

@@ -43,18 +43,6 @@
   (cond ((< frequency 31) (list frequency counter))
 	(t (minimize-freq (/ frequency 2) (+ counter 1)))))
 
-(defvar freq-key '())
-
-;(defun closest-note (freq freq-list)
- ; "Returns the closest note to the frequency."
-  ;(cond ((null freq-list) (first freq-key))
-;	((< (abs (- freq (rest (first freq-list))))
-;	    (second freq-key))
-;	 (progn (setq freq-key
-;		      (list (first (first freq-list))
-;			    (abs (- freq (rest (first freq-list))))))
-;		(closest-note freq (rest freq-list))))
-;	(t (closest-note freq (rest freq-list)))))
 (defun closest-note (freq freq-list)
   "Returns the equal temperament note-name closest to the frequency."
   (loop :with min-note := (car (first freq-list))
@@ -96,12 +84,12 @@
             obj
           (format stream "~a-~a, Frequency: ~f" note-name octave freq-float))))
 
-(defgeneric make-a-note (thing))
+;(defgeneric make-a-note (thing))
 
-(defmethod make-a-note ((thing number))
-  (make-instance 'note :note-name (first (freq-to-note thing))
-		       :octave (second (freq-to-note thing))
-		       :freq-float thing))
+;(defmethod make-a-note ((thing number))
+ ; (make-instance 'note :note-name (first (freq-to-note thing))
+;		       :octave (second (freq-to-note thing))
+;		       :freq-float thing))
 
 ;(defmethod make-a-note ((thing string))
  ; (make-instance 'note :note-name (subseq 0 1 thing)
@@ -122,43 +110,28 @@
 ;n = half steps away from fixed note (positive or negative)
 ;fn = frequency of note n half steps away
 ;a = 2^1/12
-;fn = f0 * (a)n
-;(draw (glue (box "f(n)") (box " = ") (box "f(0)") (box " * ")
-;	    (script-box (box "(a)") :superscript (box "n"))
-;	    (box " where ") (box "a") (box " = ") (script-box (box "2") :superscript (box "1/12"))))
+
 "+----------------------------------+
  |                 n            1/12|
  |f(n) = f(0) * (a)  where a = 2    |
  +----------------------------------+"
-;(draw (glue (box "f(half-steps)") (box " = ") (box "440") (box " * ")
-;	    (script-box (box "(a)") :superscript (box "half-steps"))
-;	    (box " where ") (box "a") (box " = ") (script-box (box "2") :superscript (box "1/12"))))
+
 "+---------------------------------------------------+
  |                         half-steps            1/12|
  |f(half-steps) = 440 * (a)           where a = 2    |
  +---------------------------------------------------+"
 
+(defun freq-adjust (root interval)
+  "Raises or lowers a root frequency by a given interval."
+  (* root (expt (expt 2 (/ 1 12)) interval)))
+
 (defun freq-incr (fixed)
+  "Raises a frequency by one half-step, for building chromatic test samples."
   (* fixed (expt (expt 2 (/ 1 12)) 1)))
 
-
 (defun frequency-ladder (min max)
+  "Builds a chromatic test-sample within the bounds."
   (cond ((> min max) nil)
 	(t (cons (freq-incr min) (frequency-ladder (freq-incr min) max)))))
-
-(defvar frequency-list (frequency-ladder 27.5 5000))
-
-;(loop for f in frequency-list
-		; :with most-res := (symp-rating (first frequency-list) violin)
-		 
-		 ;:when (> (symp-rating f violin) most-res)
-		 ; :do (setf most-res f)
-		; :finally (return most-res))
-
-;(loop :with most-res := (symp-rating (first frequency-list) violin)
-;		 :for f in frequency-list
-;		 :when (> (symp-rating f violin)(symp-rating most-res))
-;		   :do (setf most-res f)
-;		 :finally (resturn most-res))
 ;;;;------------------------------------------------------------------------
 

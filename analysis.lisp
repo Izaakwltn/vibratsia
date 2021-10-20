@@ -111,6 +111,13 @@
 ;;;;Excerpt Analysis -in progress (might try to merge with Lilypond parser)
 ;;;;------------------------------------------------------------------------
 
+(defun avg-resonance (sample instrument)
+  "Takes a set of frequencies, returns avg resonance on a given instrument."
+  (float (/ (reduce #'+ (mapcar #'(lambda (n)
+			   (symp-rating n instrument))
+			 sample))
+	    (length sample))))
+
 (defclass excerpt ()
   ((title :initarg :title
 	  :initform 'untitled
