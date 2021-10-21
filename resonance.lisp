@@ -22,7 +22,7 @@
 
 (defun resonance-check (pitch overtone-list)
   (loop for overtone in overtone-list
-	if (< (abs (- overtone pitch)) 10)
+	if (< (abs (- overtone pitch)) (* .005 pitch))
 	  collect  overtone into common-overtones
 	finally (return common-overtones)))
 
