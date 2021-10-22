@@ -86,24 +86,42 @@
 	  (sort (frequency-ladder (lower-bound instrument)
 			          (upper-bound instrument))
   #'(lambda (freq1 freq2)
-    (> (symp-rating freq1 instrument) (symp-rating freq2 instrument))))))
+      (> (symp-rating freq1 instrument) (symp-rating freq2 instrument))))))
 
+;;;;------------------------------------------------------------------------
+(defun optimal-keys (instrument)
+  (mapcar #'(lambda (scale)
+	      (list (round (avg-resonance (notes scale) instrument))
+		    (first (freq-to-note (root scale)))
+		    (quality scale)))
+	  (sort (mapcar #'(lambda (note) (build-scale note 'major 3))
+			(frequency-ladder (lower-bound instrument) (freq-adjust (lower-bound instrument) 11)))
+		#'(lambda (scale1 scale2)
+		    (> (avg-resonance (notes scale1) instrument) (avg-resonance (notes scale2) instrument))))))
+
+
+
+ 
 (defclass instrument-assessment ()
   ((instrument :initarg :instrument
                :accessor instrument)
+   (key-ranks  :initarg :key-ranks
+	       :accessor key-ranks)
    (note-ranks  :initarg :note-ranks
 	       :accessor note-ranks)))
   
 (defmethod print-object ((obj instrument-assessment) stream)
       (print-unreadable-object (obj stream :type t)
         (with-accessors ((instrument instrument)
+			 (key-ranks key-ranks)
 			 (note-ranks note-ranks))
             obj
-          (format stream "~%~a~%~%Note Ranking by Number of Sympathetic Vibrations:~% ~{~a~%~}"
-		  instrument note-ranks))))
+          (format stream "~%~a~%~%Most Optimal Keys:~{~%~a~}~%~%Note Ranking by Number of Sympathetic Vibrations:~% ~{~a~%~}"
+		  instrument key-ranks note-ranks))))
 
 (defun assess-instrument (instrument)
   (make-instance 'instrument-assessment :instrument instrument
+		                        :key-ranks (optimal-keys instrument)
 		                        :note-ranks (resonance-ranking instrument)))
 
 

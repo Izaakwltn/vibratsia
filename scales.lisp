@@ -10,7 +10,8 @@
    (octnum    :initarg :octnum
 	      :accessor octnum)
    (notes     :initarg :notes
-	      :accessor notes)))
+	      :accessor notes))
+  (:documentation "A scale defined by root, quality, number of octaves, and notes."))
 
 (defmethod print-object ((obj scale) stream)
       (print-unreadable-object (obj stream :type t)
@@ -41,6 +42,7 @@
 		    (locrian    (0 1 3 5 6 8 10))))
 
 (defun scale-build (root quality octnum);maybe make octnum optional, default is 1
+  "Builds the notes of a scale for the scale object."
   (cond ((zerop octnum) (list root))
         (t (append (mapcar #'(lambda (interval)
 			(freq-adjust root interval))
@@ -65,7 +67,9 @@
    (avg-rating :initarg :avg-rating
 	       :accessor avg-rating)
    (rank-list  :initarg :rank-list
-	       :accessor rank-list)))
+	       :accessor rank-list))
+  (:documentation "An assessment of a chosen scale on a chosen instrument, returning the average resonance ranking and a list of the notes ")
+  )
 
 (defmethod print-object ((obj scale-assessment) stream)
       (print-unreadable-object (obj stream :type t)

@@ -37,7 +37,6 @@
   "Compares the overtones of two fundamentals, returns sympathetic overlap."
   (resonance-compare (overtones fund1) (overtones fund2)))
 
-
 ;;;;------------------------------------------------------------------------
-;;;;Maybe sympathetic 
+;;;;Maybe Put the sympathetic analysis functions here
 ;;;;------------------------------------------------------------------------

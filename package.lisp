@@ -39,4 +39,5 @@
    #:most-resonant
    #:resonance-ranking
    #:assess-instrument
-   #:avg-resonance))
+   #:avg-resonance
+   #:optimal-keys))

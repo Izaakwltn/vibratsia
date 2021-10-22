@@ -72,7 +72,7 @@
    (octave    :initarg :octave
 	      :accessor octave)
    (freq-float :initarg   :freq-float
-	      :accessor freq-float))
+	       :accessor freq-float))
   (:documentation "A note defined by Note-name, octave number, 
                    and frequency."))
 
@@ -111,27 +111,25 @@
 ;fn = frequency of note n half steps away
 ;a = 2^1/12
 
-"+----------------------------------+
- |                 n            1/12|
- |f(n) = f(0) * (a)  where a = 2    |
- +----------------------------------+"
-
-"+---------------------------------------------------+
- |                         half-steps            1/12|
- |f(half-steps) = 440 * (a)           where a = 2    |
- +---------------------------------------------------+"
-
 (defun freq-adjust (root interval)
-  "Raises or lowers a root frequency by a given interval."
+  "Raises or lowers a root frequency by an interval n in half-steps.
+    +----------------------------------+
+    |                 n            1/12|
+    |f(n) = f(0) * (a)  where a = 2    |
+    +----------------------------------+"
   (* root (expt (expt 2 (/ 1 12)) interval)))
 
 (defun freq-incr (fixed)
-  "Raises a frequency by one half-step, for building chromatic test samples."
+  "Raises a frequency by one half-step, for building chromatic test samples.
+   +----------------------------------+
+   |                 1           1/12|
+   |f(1) = f(0) * (a)  where a = 2    |
+   +----------------------------------+"
   (* fixed (expt (expt 2 (/ 1 12)) 1)))
 
 (defun frequency-ladder (min max)
   "Builds a chromatic test-sample within the bounds."
   (cond ((> min max) nil)
-	(t (cons (freq-incr min) (frequency-ladder (freq-incr min) max)))))
+	(t (cons min (frequency-ladder (freq-incr min) max)))))
 ;;;;------------------------------------------------------------------------
 

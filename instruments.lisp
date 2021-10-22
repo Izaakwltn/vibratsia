@@ -14,7 +14,8 @@
    (lower-bound :initarg :lower-bound
 		:accessor lower-bound)
    (upper-bound :initarg :upper-bound
-		:accessor upper-bound)))
+		:accessor upper-bound))
+  (:documentation "A stringed instrument defined by its name, strings, and resonant range."))
 
 (defmethod print-object ((obj instrument) stream)
       (print-unreadable-object (obj stream :type t)
@@ -24,6 +25,7 @@
           (format stream "~a, strings: ~a" name strings))))
 
 (defun luthier (instrument-name string-freqs)
+  "Builds an instrument object given the name and the frequencies of the strings."
   (make-instance 'instrument
     :name instrument-name
     :strings (loop :for string :in string-freqs
@@ -59,5 +61,6 @@
 
 (defvar hardanger-fiddle (luthier 'hardanger-fiddle hardanger-fiddle-strings))				
 
+;;;;Maybe Sitar
 
 
