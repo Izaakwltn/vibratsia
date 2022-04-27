@@ -23,20 +23,25 @@
 			  (Bb . 29.14)
 			  (B . 30.87)))
 
+;;;;------------------------------------------------------------------------
 ;;;;Functions to convert note to frequency
+;;;;------------------------------------------------------------------------
+
 (defun octave-shift (freq num-octaves)
   (* freq (expt 2 num-octaves)))
 
-(defun freq-climber (note-freq octaves-up)
+(defun freq-climber (freq octaves-up)
   "Adjusts the note-frequency to the proper octave."
-  (cond ((zerop octaves-up) note-freq)
-	(t (freq-climber (* 2 note-freq) (- octaves-up 1)))))
+  (cond ((zerop octaves-up) freq)
+	(t (freq-climber (* 2 freq) (- octaves-up 1)))))
 
 (defun note-to-freq (note-name octave);;;has to use quoted note-name
   "Takes a note and octave, returns the note's frequency."
   (freq-climber (cdr (assoc note-name note-freq-table)) octave))
 
+;;;;------------------------------------------------------------------------
 ;;;;Functions to convert frequency to note
+;;;;------------------------------------------------------------------------
 
 (defun minimize-freq (frequency counter)
   "Minimizes the frequency until it's in the base octave."
@@ -66,6 +71,7 @@
 ;;;;------------------------------------------------------------------------
 ;;;;Note Class
 ;;;;------------------------------------------------------------------------
+
 (defclass note ()
   ((note-name :initarg :note-name
 	      :accessor note-name)
@@ -132,4 +138,11 @@
   (cond ((> min max) nil)
 	(t (cons min (frequency-ladder (freq-incr min) max)))))
 ;;;;------------------------------------------------------------------------
+;;;;Note Operations
+;;;;------------------------------------------------------------------------
 
+(defgeneric transpose (object half-steps)
+  (:documentation "Transposes a given object by a signed number of half-steps."))
+
+(defmethod transpose ((note note) half-steps)
+  (make-note (freq-adjust (freq-float note) half-steps)))

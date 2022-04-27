@@ -7,17 +7,18 @@
 ;;;;------------------------------------------------------------------------
 
 (defun symp-collection (pitch strings)
+  "Collects all resonant notes for each string"
   (cond ((null strings) nil)
 	(t (append (compare-overtones pitch (first strings))
 		   (symp-collection pitch (rest strings))))))
 
-(defun symp-rating (freq instrument)
+(defmethod freq-rating ((instrument instrument) freq)
   (length (symp-collection freq (mapcar #'freq-float (strings instrument)))))
 
-(defun symp-rating-by-note (note octave instrument)
+(defmethod note-rating ((note note) instrument)
   "Takes a note-name with octave, and the instrument,
   returns the total number of sympathetic vibrations."
-  (length (symp-collection  (note-to-freq note octave) (mapcar #'freq-float (strings instrument)))))
+  (length (symp-collection (freq-float note) (mapcar #'freq-float (strings instrument)))))
 
 (defun string-symping (pitch strings)
   (cond ((null strings) nil)
@@ -25,8 +26,8 @@
 			 (mapcar #'make-note (compare-overtones pitch (freq-float (first strings)))))
 		   (string-symping pitch (rest strings))))))
 
-(defun symp-by-string (pitch instrument)
-  "Compiles a list of sympathetic vibrations by string."
+(defmethod symp-by-string ((instrument instrument) freq)
+  "Compiles a list of sympathetic vibrations organized by string."
   (string-symping pitch (strings instrument)))
 						
 ;;;;------------------------------------------------------------------------
@@ -43,12 +44,12 @@
    (res-list :initarg :res-list
 	     :accessor res-list)))
 
-(defun assess-note (note-name octave instrument)
-  (make-instance 'note-assessment :note-obj (make-note (note-to-freq note-name octave))
+(defmethod assess-note ((instrument instrument) note)
+  (make-instance 'note-assessment :note-obj note
 		                  :instr instrument
-				  :rating (symp-rating (note-to-freq note-name octave) instrument)
+				  :rating (symp-rating (freq-float note) instrument)
 				  :res-list (symp-by-string
-					     (note-to-freq note-name octave) instrument)))
+					     (freq-float note) instrument)))
 
 (defmethod print-object ((obj note-assessment) stream)
       (print-unreadable-object (obj stream :type t)
@@ -70,7 +71,8 @@
 ;;;;------------------------------------------------------------------------
 ;;;;Instrument Resonance Profile
 ;;;;------------------------------------------------------------------------
-(defun most-resonant (instrument)
+
+(defmethod most-resonant ((instrument instrument))
   (loop :with most-res := (first (frequency-ladder (lower-bound instrument)
 						   (upper-bound instrument)))
 	:for f in (frequency-ladder (lower-bound instrument)
@@ -80,7 +82,7 @@
 	:finally (return (make-note most-res))))
 
 
-(defun resonance-ranking (instrument)
+(defmethod resonance-ranking ((instrument instrument))
   (mapcar #'(lambda (f)
 	      (list (symp-rating f instrument) (make-note f)))
 	  (sort (frequency-ladder (lower-bound instrument)
@@ -89,7 +91,8 @@
       (> (symp-rating freq1 instrument) (symp-rating freq2 instrument))))))
 
 ;;;;------------------------------------------------------------------------
-(defun optimal-keys (instrument)
+
+(defmethod optimal-keys ((instrument instrument))
   (mapcar #'(lambda (scale)
 	      (list (round (avg-resonance (notes scale) instrument))
 		    (first (freq-to-note (root scale)))
@@ -99,9 +102,9 @@
 		#'(lambda (scale1 scale2)
 		    (> (avg-resonance (notes scale1) instrument) (avg-resonance (notes scale2) instrument))))))
 
-
-
- 
+;;;;------------------------------------------------------------------------
+;;;;Instrument assessment
+;;;;------------------------------------------------------------------------
 (defclass instrument-assessment ()
   ((instrument :initarg :instrument
                :accessor instrument)
@@ -119,7 +122,7 @@
           (format stream "~%~a~%~%Most Optimal Keys:~{~%~a~}~%~%Note Ranking by Number of Sympathetic Vibrations:~% ~{~a~%~}"
 		  instrument key-ranks note-ranks))))
 
-(defun assess-instrument (instrument)
+(defmethod assess-instrument ((instrument instrument))
   (make-instance 'instrument-assessment :instrument instrument
 		                        :key-ranks (optimal-keys instrument)
 		                        :note-ranks (resonance-ranking instrument)))
@@ -129,7 +132,7 @@
 ;;;;Excerpt Analysis -in progress (might try to merge with Lilypond parser)
 ;;;;------------------------------------------------------------------------
 
-(defun avg-resonance (sample instrument)
+(defmethod avg-resonance ((instrument instrument) freq-list)
   "Takes a set of frequencies, returns avg resonance on a given instrument."
   (float (/ (reduce #'+ (mapcar #'(lambda (n)
 			   (symp-rating n instrument))

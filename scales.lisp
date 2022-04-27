@@ -56,6 +56,30 @@
 			:octnum octnum
 			:notes (scale-build root quality octnum))) 
 
+(defmethod transpose ((scale scale) half-steps)
+  "Transposes a given scale by a given interval in half steps."
+  (build-scale (freq-adjust (root scale) half-steps)
+	       (quality scale)
+	       (octnum scale)))
+
+(defmethod relative ((scale scale))
+  "Returns the relative major or minor for a scale."
+  (build-scale (if (equal (quality scale) 'major)
+		   (freq-adjust (root scale) -3)
+		   (freq-adjust (root scale) 3))
+	       (if (equal (quality scale) 'major)
+		   'mel-min
+		   'major)
+	       (octnum scale)))
+
+(defmethod parallel ((scale scale))
+  "Returns the parallel major or minor for a scale."
+  (build-scale (root scale)
+	       (if (equal (quality scale) 'major)
+		   'mel-min
+		   'major)
+	       (octnum scale)))
+
 ;;;;------------------------------------------------------------------------
 ;;;;Scale Assessment
 ;;;;------------------------------------------------------------------------
@@ -68,8 +92,7 @@
 	       :accessor avg-rating)
    (rank-list  :initarg :rank-list
 	       :accessor rank-list))
-  (:documentation "An assessment of a chosen scale on a chosen instrument, returning the average resonance ranking and a list of the notes ")
-  )
+  (:documentation "An assessment of a scale on a chosen instrument, returning the average resonance ranking and a list of the notes "))
 
 (defmethod print-object ((obj scale-assessment) stream)
       (print-unreadable-object (obj stream :type t)
@@ -86,13 +109,13 @@ This scale has an average resonance rating of ~a.~%~%Notes Ranked by Resonance:~
 		  rank-list))))
 		  
 
-(defun assess-scale (scale instrument)
+(defmethod assess-scale ((scale scale) instrument)
   (make-instance 'scale-assessment :scale scale
 		                   :instr instrument
 				   :avg-rating (avg-resonance (notes scale) instrument)
 				   :rank-list (scale-ranking scale instrument)))
 				     
-(defun scale-ranking (scale instrument)
+(defmethod scale-ranking ((scale scale) instrument)
   "Given a scale and an instrument, returns a list of notes ranked by resonance."
   (mapcar #'(lambda (f)
 	      (list (symp-rating f instrument) (make-note f)))
