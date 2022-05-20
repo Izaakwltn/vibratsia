@@ -22,7 +22,13 @@
 
   ;;; instruments.lisp
   (:export
-   #:luthier)
+   #:luthier
+   
+   #:violin
+   #:viola
+   #:cello
+   #:bass
+   #:hardanger-fiddle)
 
   ;;; scales.lisp
   (:export
