@@ -4,11 +4,12 @@
 
 (in-package #:resonance-calculator)
 
-(defvar *server*
+(defvar *resonance-app*
   (make-instance 'hunchentoot:easy-acceptor
-                 :port 4242
-                 :document-root
-                 #p(asdf:system-relative-pathname "resonance-calculator")))
+		 :port 4242
+		 :document-root
+		 (asdf::system-relative-pathname "vibratsia" "resonance-calculator/")))
 
 (defun launch ()
-  (hunchentoot::start *server*))
+  "Launching the webapp"
+  (hunchentoot::start *resonance-app*))

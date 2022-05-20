@@ -12,18 +12,23 @@
 (defvar instrument-option-list '("violin" "viola" "cello" "bass" "hardingfele"))
                                         ;add more maybe
 
+(defvar instrument-parse-list '(("violin" vibratsia:violin)
+                                ("viola" vibratsia:viola)
+                                ("cello" vibratsia:cello)
+                                ("bass" vibratsia:bass)
+                                ("hardingfele" vibratsia:hardanger-fiddle)))
 
-(defvar instrument-parse-list '(("violin"
-				 (vibratsia::luthier 'violin '(196 293.66 440 659.25)))
-				 ("VIOLA"
-				  (vibratsia::luthier 'viola '(130.8 196 293.66 440)))
-				("CELLO"
-				 (vibratsia::luthier 'cello '(65.4 98 146.8  220)))
-				("BASS"
-				 (vibratsia::luthier 'bass '(65.4 98 146.8  220)))
-				("hardingfele"
-				 (vibratsia::luthier 'hardanger-fiddle
-				  vibratsia::hardanger-fiddle-strings))))
+;(defvar instrument-parse-list '(("violin"
+;				 (vibratsia::luthier 'violin '(196 293.66 440 659.25)))
+;				 ("VIOLA"
+;				  (vibratsia::luthier 'viola '(130.8 196 293.66 440)))
+;				("CELLO"
+;				 (vibratsia::luthier 'cello '(65.4 98 146.8  220)))
+;				("BASS"
+;				 (vibratsia::luthier 'bass '(65.4 98 146.8  220)))
+;				("hardingfele"
+;				 (vibratsia::luthier 'hardanger-fiddle
+;				  vibratsia::hardanger-fiddle-strings))))
 				 
 
 (defvar root-option-list '(C C# D D# E F F# G G# A Bb B))
@@ -97,19 +102,13 @@ Sympathetic vibration occurs when the overtones of an executed note overlap with
 	(loop for note in (vibratsia::frequency-ladder 16.35 4185.6)
 	      do (:option :value note
 			  (format nil "~a-~a"
-				  (first (freq-to-note note))
-					 (second (freq-to-note note))))))
+				  (first (vibratsia::freq-to-note note))
+					 (second (vibratsia::freq-to-note note))))))
       (:select :name "instrument-option" :form "note-assess"
 	(loop for instrument in resonance-calculator::instrument-option-list
 	      do (:option :value instrument
 			  (format nil "~a" instrument))))
       (:input :type "submit" :value "Assess Note" :class "button" )))))
-(resonance)
 
 (push (hunchentoot::create-prefix-dispatcher "/resonance.html" #'resonance)
       hunchentoot::*dispatch-table*)
-
-(push #'resonance *syv-refresh-list*)
-
-(push "resonance.html" *syv-wipe-list*)
-;;;;------------------------------------------------------------------------

@@ -84,7 +84,6 @@
 
 ;;;Scale Assessment
 
->>>>>>> f0dd666 (Fixing formatting, finding what's next)
 (defclass scale-assessment ()
   ((scale      :initarg :scale
 	       :accessor scale)
