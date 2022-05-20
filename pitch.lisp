@@ -1,10 +1,10 @@
-;pitch.lisp
+;;;; pitch.lisp
+;;;;
+;;;; Copyright (c) 2021 Izaak Walton
 
 (in-package #:vibratsia)
 
-;;;;------------------------------------------------------------------------
-;;;;Note/Frequency Conversions
-;;;;------------------------------------------------------------------------
+;;; Note/Frequency Conversions
 
 (defvar note-freq-table '((C . 16.35)
 			  (C# . 17.32)
@@ -23,9 +23,8 @@
 			  (Bb . 29.14)
 			  (B . 30.87)))
 
-;;;;------------------------------------------------------------------------
-;;;;Functions to convert note to frequency
-;;;;------------------------------------------------------------------------
+
+;;;Functions to convert note to frequency
 
 (defun octave-shift (freq num-octaves)
   (* freq (expt 2 num-octaves)))
@@ -39,9 +38,8 @@
   "Takes a note and octave, returns the note's frequency."
   (freq-climber (cdr (assoc note-name note-freq-table)) octave))
 
-;;;;------------------------------------------------------------------------
-;;;;Functions to convert frequency to note
-;;;;------------------------------------------------------------------------
+
+;;;Functions to convert frequency to note
 
 (defun minimize-freq (frequency counter)
   "Minimizes the frequency until it's in the base octave."
@@ -68,9 +66,8 @@
       (minimize-freq freq 0)
   (list (closest-note canonical-freq note-freq-table) octave)))
 
-;;;;------------------------------------------------------------------------
-;;;;Note Class
-;;;;------------------------------------------------------------------------
+
+;;; Note Class
 
 (defclass note ()
   ((note-name :initarg :note-name
@@ -90,32 +87,18 @@
             obj
           (format stream "~a-~a, Frequency: ~f" note-name octave freq-float))))
 
-;(defgeneric make-a-note (thing))
-
-;(defmethod make-a-note ((thing number))
- ; (make-instance 'note :note-name (first (freq-to-note thing))
-;		       :octave (second (freq-to-note thing))
-;		       :freq-float thing))
-
-;(defmethod make-a-note ((thing string))
- ; (make-instance 'note :note-name (subseq 0 1 thing)
-;		       :octave (subseq 1 2 thing)
-;		       :freq-float thing
-
 (defun make-note (frequency)
   "Makes a full note instance from a given frequency."
   (make-instance 'note :note-name (first (freq-to-note frequency))
 		       :octave (second (freq-to-note frequency))
 		       :freq-float frequency))
+;;;Frequency generation
 
-;;;;------------------------------------------------------------------------
-;;;;Frequency generation
-;;;;------------------------------------------------------------------------
-;fn = f0 * (a)^n
-;f0 = 440
-;n = half steps away from fixed note (positive or negative)
-;fn = frequency of note n half steps away
-;a = 2^1/12
+                                        ;fn = f0 * (a)^n
+                                        ;f0 = 440
+                                        ;n = half steps away from fixed note (positive or negative)
+                                        ;fn = frequency of note n half steps away
+                                        ;a = 2^1/12
 
 (defun freq-adjust (root interval)
   "Raises or lowers a root frequency by an interval n in half-steps.
@@ -137,9 +120,8 @@
   "Builds a chromatic test-sample within the bounds."
   (cond ((> min max) nil)
 	(t (cons min (frequency-ladder (freq-incr min) max)))))
-;;;;------------------------------------------------------------------------
-;;;;Note Operations
-;;;;------------------------------------------------------------------------
+
+;;; Note Operations
 
 (defgeneric transpose (object half-steps)
   (:documentation "Transposes a given object by a signed number of half-steps."))

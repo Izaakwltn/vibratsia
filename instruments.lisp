@@ -1,10 +1,10 @@
-;;;;instruments.lisp
+;;;; instruments.lisp
+;;;;
+;;;; Copyright (c) 2022 Izaak Walton
 
 (in-package #:vibratsia)
 
-;;;;------------------------------------------------------------------------
-;;;;Defining the Instrument class
-;;;;------------------------------------------------------------------------
+;;; The Instrument class
 
 (defclass instrument ()
   ((name :initarg :name
@@ -24,6 +24,8 @@
             obj
           (format stream "~a, strings: ~a" name strings))))
 
+                                        ;Also a function is needed for specific lower/upper bounds
+
 (defun luthier (instrument-name string-freqs)
   "Builds an instrument object given the name and the frequencies of the strings."
   (make-instance 'instrument
@@ -32,8 +34,9 @@
 		   :collect (make-note string))
     :lower-bound (reduce #'min string-freqs)
     :upper-bound (* 3 (reduce #'max string-freqs))))
-;;;;------------------------------------------------------------------------
-;;;;Predefined Standard Instruments:
+
+;;; Predefined Standard Instruments:
+
 (alexandria:define-constant violin-open-strings '(196 293.66 440 659.25) :test 'equal)
 
 (defvar violin (luthier 'violin violin-open-strings))
@@ -50,10 +53,10 @@
 
 (defvar bass (luthier 'bass bass-open-strings))
 
+                                        ; add guitar, ukulele, etc, 5 string violin
 
-;;;;------------------------------------------------------------------------
-;;;;Pre-defined unusual instruments:
-;;;;------------------------------------------------------------------------
+;;;Pre-defined unusual instruments:
+
 (defvar hardanger-fiddle-strings (mapcar #'(lambda (note-set)
 					     (note-to-freq (first note-set) (second note-set)))
 					 '((B 3) (E 4) (B 4) (F# 5)
@@ -61,6 +64,6 @@
 
 (defvar hardanger-fiddle (luthier 'hardanger-fiddle hardanger-fiddle-strings))				
 
-;;;;Maybe Sitar
+;;;;Maybe Sitar, arpeggione
 
 

@@ -2,9 +2,7 @@
 
 (in-package #:vibratsia)
 
-;;;;------------------------------------------------------------------------
-;;;;Overtone Functions
-;;;;------------------------------------------------------------------------
+;;;Overtone Functions
 
 (defun overtone-ladder (fundamental gap n)
   (cond ((< n 1) nil)
@@ -16,9 +14,7 @@
   (cons fundamental
 	(overtone-ladder fundamental fundamental 15)))
 
-;;;;------------------------------------------------------------------------
-;;;;Resonance Functions
-;;;;------------------------------------------------------------------------
+;;;Resonance Functions
 
 (defun resonance-check (pitch overtone-list)
   (loop for overtone in overtone-list
@@ -36,7 +32,3 @@
 (defun compare-overtones (fund1 fund2)
   "Compares the overtones of two fundamentals, returns sympathetic overlap."
   (resonance-compare (overtones fund1) (overtones fund2)))
-
-;;;;------------------------------------------------------------------------
-;;;;Maybe Put the sympathetic analysis functions here
-;;;;------------------------------------------------------------------------

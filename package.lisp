@@ -1,12 +1,12 @@
-;;;;package.lisp
+;;;; package.lisp
 ;;;;
-;;;;Copyright (c) 2021 Izaak Walton
+;;;; Copyright (c) 2021 Izaak Walton
 
 (defpackage #:vibratsia
   (:documentation "String Resonance Calculation Package.")
   (:use #:cl #:alexandria)
 
-  ;;;;pitch.lisp
+  ;;; pitch.lisp
   (:export
    #:note-to-freq
    #:freq-to-note
@@ -15,22 +15,22 @@
    #:freq-incr
    #:frequency-ladder)
   
-  ;;;;resonance.lisp
+  ;;; resonance.lisp
   (:export
    #:overtones
-   #:compare-overtones) ;;;overtone functions, resonance check functions, but more basic
+   #:compare-overtones)
 
-  ;;;;instruments.lisp
+  ;;; instruments.lisp
   (:export
    #:luthier)
 
-  ;;;;scales.lisp
+  ;;; scales.lisp
   (:export
    #:build-scale
    #:scale-ranking
    #:assess-scale)
    
-  ;;;;analysis.lisp
+  ;;; analysis.lisp
   (:export
    #:symp-rating
    #:symp-rating-by-note

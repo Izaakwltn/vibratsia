@@ -1,6 +1,8 @@
-;;;;scales.lisp
+;;;; scales.lisp
+;;;;
+;;;; Copyright (c) 2022 Izaak Walton
 
-(in-package :vibratsia)
+(in-package #:vibratsia)
 
 (defclass scale ()
   ((root :initarg :root
@@ -80,9 +82,9 @@
 		   'major)
 	       (octnum scale)))
 
-;;;;------------------------------------------------------------------------
-;;;;Scale Assessment
-;;;;------------------------------------------------------------------------
+;;;Scale Assessment
+
+>>>>>>> f0dd666 (Fixing formatting, finding what's next)
 (defclass scale-assessment ()
   ((scale      :initarg :scale
 	       :accessor scale)

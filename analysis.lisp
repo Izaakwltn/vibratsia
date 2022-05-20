@@ -1,10 +1,10 @@
-;;;;analysis.lisp
+;;;; analysis.lisp
+;;;;
+;;;; Copyright (c) 2022 Izaak Walton
 
 (in-package #:vibratsia)
 
-;;;;------------------------------------------------------------------------
-;;;;Sympathetic analysis functions
-;;;;------------------------------------------------------------------------
+;;; Sympathetic analysis functions
 
 (defun symp-collection (pitch strings)
   "Collects all resonant notes for each string"
@@ -29,10 +29,8 @@
 (defmethod symp-by-string ((instrument instrument) freq)
   "Compiles a list of sympathetic vibrations organized by string."
   (string-symping pitch (strings instrument)))
-						
-;;;;------------------------------------------------------------------------
-;;;;Resonance Stat Generation
-;;;;------------------------------------------------------------------------
+
+;;; Resonance Stat Generation
 
 (defclass note-assessment ()
    ((note-obj    :initarg :note-obj
@@ -68,9 +66,8 @@
                         ((<= rating 10) "marginally resonant")) 
 		  res-list))))
 
-;;;;------------------------------------------------------------------------
-;;;;Instrument Resonance Profile
-;;;;------------------------------------------------------------------------
+
+;;; Instrument Resonance Profile
 
 (defmethod most-resonant ((instrument instrument))
   (loop :with most-res := (first (frequency-ladder (lower-bound instrument)
@@ -90,8 +87,6 @@
   #'(lambda (freq1 freq2)
       (> (symp-rating freq1 instrument) (symp-rating freq2 instrument))))))
 
-;;;;------------------------------------------------------------------------
-
 (defmethod optimal-keys ((instrument instrument))
   (mapcar #'(lambda (scale)
 	      (list (round (avg-resonance (notes scale) instrument))
@@ -102,9 +97,8 @@
 		#'(lambda (scale1 scale2)
 		    (> (avg-resonance (notes scale1) instrument) (avg-resonance (notes scale2) instrument))))))
 
-;;;;------------------------------------------------------------------------
-;;;;Instrument assessment
-;;;;------------------------------------------------------------------------
+;;; Instrument assessment
+
 (defclass instrument-assessment ()
   ((instrument :initarg :instrument
                :accessor instrument)
@@ -127,10 +121,7 @@
 		                        :key-ranks (optimal-keys instrument)
 		                        :note-ranks (resonance-ranking instrument)))
 
-
-;;;;------------------------------------------------------------------------
-;;;;Excerpt Analysis -in progress (might try to merge with Lilypond parser)
-;;;;------------------------------------------------------------------------
+;;; Excerpt Analysis -in progress (might try to merge with Lilypond parser)
 
 (defmethod avg-resonance ((instrument instrument) freq-list)
   "Takes a set of frequencies, returns avg resonance on a given instrument."
