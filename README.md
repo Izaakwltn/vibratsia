@@ -1,15 +1,15 @@
 # Vibratsia
 
-#### An interface for calculating sympathetic vibrations between strings on stringed instruments.
+## An interface for calculating sympathetic vibrations between strings on stringed instruments.
 
 Vibratsia is an attempt to analyze and harness these sympathetic vibrations for the purposes
 of optimal sound generation, composing towards the instruments' natural strengths, and
 understanding intonation.
 
-## To use a web-app version: 
+#### To use a web-app version: 
 (ql:quickload :resonance-calculator) -> (resonance-calculator:launch)
 
-# A quick dive into the science behind resonance:
+## A quick dive into the science behind resonance:
 
 Every note played on an instrument, or even sung, is actually a composite sound consisting
 of approximately 32 overtones. On stringed instruments, these overtones can be isolated
@@ -22,9 +22,9 @@ and sometimes even visually.
 
 ## Using Vibratsia in the REPL:
 
-# Since most analysis will be in the context of a musical instrument, there are a number of preset instruments including the violin, viola, cello, bass, and hardanger fiddle.
+#### Since most analysis will be in the context of a musical instrument, there are a number of preset instruments including the violin, viola, cello, bass, and hardanger fiddle.
 
-# You can also create a custom instrument:
+#### You can also create a custom instrument:
 
 VIBRATSIA> (luthier 'violin violin-open-strings)
 
@@ -33,7 +33,7 @@ VIBRATSIA> (luthier 'violin violin-open-strings)
                                #<NOTE A-4, Frequency: 440.0>
                                #<NOTE E-5, Frequency: 659.25>)> 
                                
-# Once you have an instrument configured, you can compare a note with it using note-name/octave syntax:
+#### Once you have an instrument configured, you can compare a note with it using note-name/octave syntax:
 
  VIBRATSIA> (assess-note 'a 4 violin)
 
@@ -72,7 +72,7 @@ A list of Frequencies by String:
   #<NOTE B-7, Frequency: 3955.5> #<NOTE E-8, Frequency: 5274.0>
   #<NOTE G#-8, Frequency: 6592.5>))>
 
-# And you can see the most resonant notes on an instrument using (assess-instrument)
+#### And you can see the most resonant notes on an instrument using (assess-instrument)
 
 VIBRATSIA> (assess-instrument violin)
 
@@ -127,5 +127,3 @@ Note Ranking by Number of Sympathetic Vibrations:
 (0 #<NOTE BB-6, Frequency: 1864.6802>)
 (0 #<NOTE C-7, Frequency: 2093.033>)
 >
-                               
-                               
