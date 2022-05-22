@@ -7,7 +7,10 @@ of optimal sound generation, composing towards the instruments' natural strength
 understanding intonation.
 
 #### To use a web-app version: 
+
 (ql:quickload :resonance-calculator) -> (resonance-calculator:launch)
+
+Then go to 127.0.0.1:4242 in your browser
 
 ## A quick dive into the science behind resonance:
 
