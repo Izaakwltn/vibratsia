@@ -6,7 +6,10 @@ Vibratsia is an attempt to analyze and harness these sympathetic vibrations for 
 of optimal sound generation, composing towards the instruments' natural strengths, and
 understanding intonation.
 
-## A quick dive into the science behind resonance:
+## To use a web-app version: 
+(ql:quickload :resonance-calculator) -> (resonance-calculator:launch)
+
+# A quick dive into the science behind resonance:
 
 Every note played on an instrument, or even sung, is actually a composite sound consisting
 of approximately 32 overtones. On stringed instruments, these overtones can be isolated
@@ -17,11 +20,11 @@ overtones of an open string. Harmonic nodes, as the overtones are called in stri
 geography, respond to similar frequencies, and vibrate the open string audibly,
 and sometimes even visually. 
 
-## Using Vibratsia
+## Using Vibratsia in the REPL:
 
-#### Since most analysis will be in the context of a musical instrument, there are a number of preset instruments including the violin, viola, cello, bass, and hardanger fiddle.
+# Since most analysis will be in the context of a musical instrument, there are a number of preset instruments including the violin, viola, cello, bass, and hardanger fiddle.
 
-### You can also create a custom instrument:
+# You can also create a custom instrument:
 
 VIBRATSIA> (luthier 'violin violin-open-strings)
 
@@ -30,7 +33,7 @@ VIBRATSIA> (luthier 'violin violin-open-strings)
                                #<NOTE A-4, Frequency: 440.0>
                                #<NOTE E-5, Frequency: 659.25>)> 
                                
-### Once you have an instrument configured, you can compare a note with it using note-name/octave syntax:
+# Once you have an instrument configured, you can compare a note with it using note-name/octave syntax:
 
  VIBRATSIA> (assess-note 'a 4 violin)
 
@@ -69,7 +72,7 @@ A list of Frequencies by String:
   #<NOTE B-7, Frequency: 3955.5> #<NOTE E-8, Frequency: 5274.0>
   #<NOTE G#-8, Frequency: 6592.5>))>
 
-### And you can see the most resonant notes on an instrument using (assess-instrument)
+# And you can see the most resonant notes on an instrument using (assess-instrument)
 
 VIBRATSIA> (assess-instrument violin)
 
