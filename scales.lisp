@@ -113,13 +113,13 @@ This scale has an average resonance rating of ~a.~%~%Notes Ranked by Resonance:~
 (defmethod assess-scale ((scale scale) instrument)
   (make-instance 'scale-assessment :scale scale
 		                   :instr instrument
-				   :avg-rating (avg-resonance (notes scale) instrument)
+				   :avg-rating (avg-resonance instrument (notes scale))
 				   :rank-list (scale-ranking scale instrument)))
 				     
 (defmethod scale-ranking ((scale scale) instrument)
   "Given a scale and an instrument, returns a list of notes ranked by resonance."
   (mapcar #'(lambda (f)
-	      (list (symp-rating f instrument) (make-note f)))
+	      (list (note-rating (make-note f) instrument) (make-note f)))
 	  (sort (notes scale)
   #'(lambda (freq1 freq2)
-    (> (symp-rating freq1 instrument) (symp-rating freq2 instrument))))))
+    (> (note-rating (make-note freq1) instrument) (note-rating (make-note freq2) instrument))))))

@@ -72,38 +72,37 @@
 	   (vibratsia::lower-bound instrument)
 	   (vibratsia::freq-adjust (vibratsia::lower-bound instrument) 11))))))
 
-(defvar key-assessment)
-(defvar instrument-object)
 (hunchentoot::define-easy-handler (scale-assess :uri "/key-assess")
 	(root-option quality-option instrument-option)
   (setf (hunchentoot:content-type*) "text/html")
-  (setq instrument-object (eval
-			 (second
-			  (assoc instrument-option instrument-parse-list :test #'string-equal))))
-  (setq key-assessment (vibratsia::assess-scale
-			(vibratsia::build-scale
-			 (lowest-note-available root-option instrument-object)
-			 (second (assoc quality-option quality-parse-list :test #'string-equal))
-			 3)
-			instrument-object))
-			
-  (with-page (:title "Key Resonance Profile")
-    (:header
-     (:h1 "Resonance Calculator")
-     (:h2 "Key Resonance Profile")
-     (:p (format nil "A comprehensive analysis of the key ~a ~a, as played on the ~a"
-		 (first (freq-to-note (vibratsia::root (vibratsia::scale key-assessment))))
+  (let ((instrument-object (eval
+                            (second
+                             (assoc instrument-option
+                                    instrument-parse-list :test #'string-equal))))
+        (key-assessment (vibratsia::assess-scale
+                         (vibratsia::build-scale
+			  (lowest-note-available root-option instrument-object)
+                          (second (assoc quality-option quality-parse-list :test #'string-equal))
+			  3)
+                         instrument-object)))
+    (with-page (:title "Key Resonance Profile")
+      (:header
+       (:h1 "Resonance Calculator")
+       (:h2 "Key Resonance Profile")
+       (:p (format nil "A comprehensive analysis of the key ~a ~a, as played on the ~a"
+                   (first (vibratsia::freq-to-note
+                           (vibratsia::root (vibratsia::scale key-assessment))))
 		 (vibratsia::quality (vibratsia::scale key-assessment))
 		 (vibratsia::name (vibratsia::instr key-assessment)))))
-    (:section
-     (:h5 (format nil "Average Sympathetic Vibration Rating:  ~a"
+      (:section
+       (:h5 (format nil "Average Sympathetic Vibration Rating:  ~a"
 		  (vibratsia::avg-rating key-assessment))))
     (:section
      (:h5 "The notes of the key ranked by resonance on the chosen instrument:")
      (:ul
       (loop for n in (vibratsia::rank-list key-assessment)
 	    do (:li (format nil "~a" n)))))
-	       (:a :href "/resonance.html" "Try another calculation")))
+	       (:a :href "/resonance.html" "Try another calculation"))))
      
 
 ;;;;find the lowest iteration of the key on the instrument, generate a 3 octave scale, return
@@ -118,19 +117,17 @@
 (hunchentoot::define-easy-handler (note-assess :uri "/note-assess") (note-option instrument-option)
   (setf (hunchentoot:content-type*) "text/html")
   (setq note-assessment
-	(vibratsia::assess-note (first
-				 (freq-to-note (parse-float:parse-float note-option)))
-			        (second (freq-to-note (parse-float:parse-float note-option)))
-				(eval (second
-				       (assoc instrument-option
-					      instrument-parse-list :test #'string-equal)))))
+	(let ((note (vibratsia::make-note (parse-float:parse-float note-option))))
+          (vibratsia::assess-note (eval (second (assoc instrument-option
+					      instrument-parse-list :test #'string-equal)))
+                                  note)))
   (with-page (:title "Instrument Resonance Profile")
     (:header
      (:h1 "Resonance Calculator")
      (:h2 "Note-instrument Assessment")
      (:p (format nil "A comprehensive analysis of the note, ~a-~a, as played on the ~a"
-		 (first (freq-to-note (parse-float:parse-float note-option)))
-		 (second (freq-to-note (parse-float:parse-float note-option)))
+		 (first (vibratsia::freq-to-note (parse-float:parse-float note-option)))
+		 (second (vibratsia::freq-to-note (parse-float:parse-float note-option)))
 		 instrument-option)))
     (:section
      (:h5 (format nil "Sympathetic Vibration Rating: ~a" (vibratsia::rating note-assessment))))
